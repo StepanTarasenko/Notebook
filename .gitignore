@@ -1,0 +1,12 @@
+/.vs
+/packages
+/TestResults
+/Notebook.Tests
+/Notebook/bin
+/Notebook/Content
+/Notebook/node_modules
+/Notebook/obj
+/Notebook/Scripts
+/Notebook/DataAccess
+/Notebook/Models
+/Notebook/fonts
