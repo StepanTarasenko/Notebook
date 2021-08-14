@@ -11,7 +11,6 @@
     }
 
     function add(postData) {
-        //return $.post(`WebService/ContactService.asmx/Post`, postData)
         let respons =  $.ajax({
             contentType: 'application/json',
             data: JSON.stringify({ newContact: { ...postData } }),
@@ -21,7 +20,6 @@
             async: false,
             url: 'WebService/ContactService.asmx/Post'
         });
-        //console.log(respons)
         return respons.responseText.split('{')[0];
     }
 

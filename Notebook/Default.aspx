@@ -2,29 +2,41 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        li {
+        .contacts-box li {
             list-style: none;
             display: flex;
         }
-        li div {
+        .contacts-box li div {
             display: inline-block;
         }
         label {
             display: inline-block;
             width: 125px;
         }
-        .add_button{
-            margin:10px;
+
+
+        .id {
+            width: 40px;
         }
+        .button-container,
+        .text {
+            width: 100px;
+        }
+        .email,
+        .date {
+            width:150px;
+        }        
 
     </style>
     <script src="app/services/contactService.js"></script>
     <script src="app/components/ContactComponent.js"></script>
     <script src="app/components/ContactLabel.js"></script>
     <script src="app/components/PopUpDialog.js"></script>
+    <div id="app">          
+            <button type="button" @click="displayPopUpAdd">
+                <i class="fa fa-plus" aria-hidden="true" ></i>
+            </button>
 
-    <div id="app">
-        <input type="button" value="show" @click="displayPopUpAdd" class="add_button"/>   
 
         <!--Change-->
         <!--fail to create a separate component-->
@@ -48,6 +60,14 @@
             </p>
 
             <p>
+                <label>Gender</label>
+                <select v-model="sel.gender">
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+            </p
+
+            <p>
                 <label>Patronymic</label>
                 <input type="text" name="sel.patronymic" v-model="sel.patronymic" />            
             </p>
@@ -67,7 +87,7 @@
                 <input type="date" name="sel.dateOfBirth" v-model="sel.dateOfBirth" />
             </p>
 
-            <input type="button" value="change" @click="changeContact(sel)" />
+            <button type="button" @click="changeContact(sel)"><i class="fa fa-check-circle"></i></button>
         </popup-dialog>
 
 
@@ -119,16 +139,16 @@
                 <label>DateOfBirth</label>
                 <input type="date" name="newContact.dateOfBirth" v-model="newContact.dateOfBirth" />
             </p>
-           
-            <input type="button" value="add" @click="addContact" />
+
+            <button type="button" @click="addContact(newContact)"><i class="fa fa-check-circle"></i></button>
         </popup-dialog>
 
-        <ul>
+        <ul class="contacts-box">
             <li><contact-label/></li>
-            <li v-for="item in contacts" :key="item.id">
-                <input v-if="sel?.id == item?.id" type="button" :value="`remove${item.id}`" @click="removeContact(item)" />
-                <input v-if="sel?.id == item?.id" type="button" :value="`change${item.id}`" @click="displayPopUpChange" />
+            <li v-for="item in contacts" :key="item.id">              
                 <contact @click.native="sel = {...item}" :item="item" ></contact>
+                <button v-if="sel?.id == item.id" type="button" @click="removeContact(item)" ><i class="fa fa-trash"></i></button>
+                <button v-if="sel?.id == item.id" type="button" @click="displayPopUpChange" ><i class="fa fa-edit"></i></button>
             </li>
         </ul>
     </div>
@@ -169,18 +189,17 @@
                     contactService.get().then(contacts => this.contacts = contacts);
                 },
 
-                addContact: function () { 
+                addContact: function (item) { 
 
-                    if (this.isValid(this.newContact) == false) {
+                    if (this.isValid(item) == false) {
                         return;
                     }
 
-                    let contact = { ...this.newContact, id: 0 };
+                    let contact = { ...item, id: 0 };
                     contact.id = contactService.add(contact);
                     this.contacts.push(contact);
 
-                    //this.errors = [];
-                    for (var member in this.newContact) delete this.newContact[member];
+                    for (var member in item) delete item[member];
                     this.isDisplayPopUpAdd = false;
                 },
 
@@ -200,9 +219,8 @@
                         this.contacts = this.contacts.map(value => value.id == updateContact.id ? { ...updateContact } : value)
                     )
 
-                    //this.errors = [];
                     this.isDisplayPopUpChange = false;
-                    this.sel.id = -1;
+                    updateContact.id = -1;
                 },
 
 
