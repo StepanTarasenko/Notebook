@@ -115,6 +115,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\components\ContactLabel.js" />
+    <Content Include="app\components\ContactLabel.html" />
     <Content Include="app\components\PopUpDialog.css" />
     <Content Include="app\components\PopUpDialog.html" />
     <Content Include="app\components\ContactComponent.html" />
@@ -177,8 +179,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="DataAccess\RecordRepository.cs" />
-    <Compile Include="DataAccess\IRecordData.cs" />
+    <Compile Include="DataAccess\DataBaseConnection .cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Notebook.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Services;
 using System.Web.Services;
 
 namespace Notebook.WebService
@@ -27,7 +29,7 @@ namespace Notebook.WebService
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
         }
-
+        
         [WebMethod]
         public void Get()
         {
@@ -37,27 +39,29 @@ namespace Notebook.WebService
         }
 
         [WebMethod]
-        public void Post(int id, string name)
+        public void Post(Contact newContact)
         {
             var maxId = ContactDto.Get().Max(x => x.Id) + 1;
-            var employee = new ContactDto { Id = maxId, Name = name };
-            ContactDto.Contacts.Add(employee);
+            var contact = new Contact();
+            contact.CopyState(newContact);
+            contact.Id = maxId;
+            ContactDto.Contacts.Add(contact);
             HttpContext.Current.Response.Write(maxId);
         }
 
         [WebMethod]
         public void Delete(int id)
         {
-            var employee = ContactDto.Contacts.FirstOrDefault(x => x.Id == id);
-            ContactDto.Contacts.Remove(employee);
+            var contact = ContactDto.Contacts.FirstOrDefault(x => x.Id == id);
+            ContactDto.Contacts.Remove(contact);
         }
 
         [WebMethod]
-        public void Put(int id, string name)
+        public void Put(Contact renewContact)
         {
-            var employee = ContactDto.Contacts.FirstOrDefault(x => x.Id == id);
+            var contact = ContactDto.Contacts.FirstOrDefault(x => x.Id == renewContact.Id);
 
-            employee.Name = name;
+            contact.CopyState(renewContact);
         }
 
 
@@ -65,19 +69,16 @@ namespace Notebook.WebService
 
     public class ContactDto
     {
-        public static IList<ContactDto> Contacts { get; set; }
+        public static IList<Contact> Contacts { get; set; }
 
-        public IList<ContactDto> Get()
+        public IList<Contact> Get()
         {
-            Contacts = Contacts ?? new List<ContactDto>
+            Contacts = Contacts ?? new List<Contact>
             {
-                new ContactDto {Id=1,Name="anson" },
-                new ContactDto {Id=2,Name="jacky" }
+                new Contact {Id=1, Name="anson", SurName="svit", Patronymic="jacerson", Email="anson12@gmail.com", PhoneNumber="+79232134286", DateOfBirth = DateTime.Now, Gender = Gender.Male },
+                new Contact {Id=2, Name="jacky", SurName="abromson", Patronymic="deluck", Email="jacky42@gmail.com", PhoneNumber="+79242134644", DateOfBirth = DateTime.Now, Gender = Gender.Male }
             };
             return Contacts;
         }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

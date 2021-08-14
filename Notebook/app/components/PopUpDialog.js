@@ -5,19 +5,11 @@
                 show: {
                     type: Boolean
                 }
-
             },
             template: template,
-            mounted() {
-                let style = document.createElement('link');
-                style.type = "text/css";
-                style.rel = "stylesheet";
-                style.href = 'app/components/PopUpDialog.css';
-                document.head.appendChild(style);
-            },
             methods: {
                 hideDialog: function() {
-                    this.$emit('update:show', false)
+                    this.$emit('update:show', false);
                 }
             }
         })
