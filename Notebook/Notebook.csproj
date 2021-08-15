@@ -117,11 +117,12 @@
   <ItemGroup>
     <Content Include="app\components\ContactLabel.js" />
     <Content Include="app\components\ContactLabel.html" />
-    <Content Include="app\components\PopUpDialog.css" />
-    <Content Include="app\components\PopUpDialog.html" />
+    <Content Include="app\components\global.css" />
+    <Content Include="app\components\PopUpСontainer.css" />
+    <Content Include="app\components\PopUpСontainer.html" />
     <Content Include="app\components\ContactComponent.html" />
     <Content Include="app\components\ContactComponent.js" />
-    <Content Include="app\components\PopUpDialog.js" />
+    <Content Include="app\components\PopUpСontainer.js" />
     <Content Include="app\services\ContactService.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

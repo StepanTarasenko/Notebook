@@ -1,5 +1,5 @@
-﻿Vue.component('popup-dialog', function (resolve) {
-    $.get('app/components/PopUpDialog.html', function (template) {
+﻿Vue.component('popup-container', function (resolve) {
+    $.get('app/components/PopUpСontainer.html', function (template) {
         resolve({
             props: {
                 show: {

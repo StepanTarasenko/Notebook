@@ -16,28 +16,10 @@
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="app/components/global.css">
 
 </head>
 <body>
-    <style>
-        .container body-content {
-          position: relative;
-          min-height: 100%;
-        }
-        .content {
-          padding-bottom: 90px;
-        }
-        footer {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 100%;
-          height: 80px;
-        }
-        footer p {
-            margin-left: 50px;
-        }
-    </style>
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>

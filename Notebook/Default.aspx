@@ -1,37 +1,10 @@
 ﻿<%@ Page Title="NodeBook" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Notebook._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-        .contacts-box li {
-            list-style: none;
-            display: flex;
-        }
-        .contacts-box li div {
-            display: inline-block;
-        }
-        label {
-            display: inline-block;
-            width: 125px;
-        }
-
-
-        .id {
-            width: 40px;
-        }
-        .button-container,
-        .text {
-            width: 100px;
-        }
-        .email,
-        .date {
-            width:150px;
-        }        
-
-    </style>
     <script src="app/services/contactService.js"></script>
     <script src="app/components/ContactComponent.js"></script>
     <script src="app/components/ContactLabel.js"></script>
-    <script src="app/components/PopUpDialog.js"></script>
+    <script src="app/components/PopUpСontainer.js"></script>
     <div id="app">          
             <button type="button" @click="displayPopUpAdd">
                 <i class="fa fa-plus" aria-hidden="true" ></i>
@@ -40,7 +13,7 @@
 
         <!--Change-->
         <!--fail to create a separate component-->
-        <popup-dialog v-bind:show.sync="isDisplayPopUpChange">
+        <popup-container v-bind:show.sync="isDisplayPopUpChange">
 
             <p v-if="errors.length">
                 <b>Errors:</b>
@@ -88,12 +61,12 @@
             </p>
 
             <button type="button" @click="changeContact(sel)"><i class="fa fa-check-circle"></i></button>
-        </popup-dialog>
+        </popup-container>
 
 
         <!--ADD-->
         <!--fail to create a separate component-->
-        <popup-dialog v-bind:show.sync="isDisplayPopUpAdd">
+        <popup-container v-bind:show.sync="isDisplayPopUpAdd">
 
             <p v-if="errors.length">
                 <b>Errors:</b>
@@ -141,7 +114,7 @@
             </p>
 
             <button type="button" @click="addContact(newContact)"><i class="fa fa-check-circle"></i></button>
-        </popup-dialog>
+        </popup-container>
 
         <ul class="contacts-box">
             <li><contact-label/></li>
@@ -151,8 +124,9 @@
                 <button v-if="sel?.id == item.id" type="button" @click="displayPopUpChange" ><i class="fa fa-edit"></i></button>
             </li>
         </ul>
-    </div>
 
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
 
         let app = new Vue({
@@ -186,7 +160,13 @@
             methods: {
 
                 getContacts: function () {
-                    contactService.get().then(contacts => this.contacts = contacts);
+                    contactService.get().then(contacts => {
+                        this.contacts = contacts;
+                        this.contacts.forEach(contact =>
+                            contact.dateOfBirth = moment(contact.dateOfBirth).format('YYYY-MM-DD')
+                        );
+                    });
+                    
                 },
 
                 addContact: function (item) { 
@@ -263,14 +243,13 @@
                     const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
                     return re.test(phone);
                 }
-
                     
             },
             mounted() {
                 let style = document.createElement('link');
                 style.type = "text/css";
                 style.rel = "stylesheet";
-                style.href = 'app/components/PopUpDialog.css';
+                style.href = 'app/components/PopUpСontainer.css';
                 document.head.appendChild(style);
             },
             created: function () {

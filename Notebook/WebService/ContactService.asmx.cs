@@ -50,13 +50,21 @@ namespace Notebook.WebService
         [WebMethod]
         public void Delete(int id)
         {
-            dataBaseConnection.DeleteContact(id);
+            if(id > 0)
+            {
+                dataBaseConnection.DeleteContact(id);
+            }
+               
         }
 
         [WebMethod]
         public void Put(Contact renewContact)
         {
-            dataBaseConnection.UpdateContact(renewContact);
+            if (renewContact.Id > 0)
+            {
+                dataBaseConnection.UpdateContact(renewContact);
+            }
+                
         }
 
 
